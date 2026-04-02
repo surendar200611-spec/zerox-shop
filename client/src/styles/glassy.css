@@ -1,0 +1,105 @@
+:root {
+  --primary: #F9D423; /* Golden Yellow */
+  --primary-glow: rgba(249, 212, 35, 0.4);
+  --secondary: #000000; /* Pure Black */
+  --bg-beige: #FDFCF0; /* Pro Beige Background */
+  --matte-card: #FFFFFF; /* Pure White for cards */
+  --text-main: #000000; /* High Contrast Black */
+  --text-muted: #444444;
+  --shadow-matte: 0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 5px 15px -5px rgba(0, 0, 0, 0.05);
+  --border-light: rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-beige);
+  color: var(--text-main);
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3D Matte Card System */
+.glass-card {
+  background: var(--matte-card);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  box-shadow: var(--shadow-matte);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 16px;
+  }
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
+}
+
+/* 3D Button System */
+.button-3d {
+  background: var(--primary);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  color: var(--secondary);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #DAB91B, 0 8px 15px rgba(218, 185, 27, 0.3);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #DAB91B, 0 12px 20px rgba(218, 185, 27, 0.4);
+}
+
+.button-3d:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #DAB91B, 0 4px 10px rgba(218, 185, 27, 0.2);
+}
+
+/* Responsive Font Scaling */
+h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); }
+h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+
+.text-gradient {
+  color: var(--secondary);
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .float-animation {
+    display: none; /* Clean up mobile view */
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* Utility for spacing */
+.section-padding {
+  padding: 80px 20px;
+}
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 50px 15px;
+  }
+}
