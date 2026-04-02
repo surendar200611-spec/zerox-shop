@@ -84,50 +84,52 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', padding: '120px 20px 60px 20px', background: 'var(--bg-beige)' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ minHeight: '100vh', padding: '100px 15px 60px 15px', background: 'var(--bg-beige)', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
         
-        {/* Simplified Header */}
-        <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        {/* Header — stacks on mobile */}
+        <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '15px' }}>
             <div>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }} className="text-gradient">Print Queue</h1>
-                <p style={{ color: 'var(--text-muted)' }}>Manage your active print jobs and history.</p>
+                <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '8px' }} className="text-gradient">Print Queue</h1>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Manage your active print jobs and history.</p>
             </div>
             {activeTab === 'History' && (
                 <button 
                   onClick={clearHistory}
                   className="button-3d"
-                  style={{ padding: '10px 20px', fontSize: '0.8rem', background: '#ef4444', boxShadow: '0 4px 0 #991b1b' }}
+                  style={{ padding: '10px 20px', fontSize: '0.8rem', background: '#ef4444', boxShadow: '0 4px 0 #991b1b', whiteSpace: 'nowrap' }}
                 >
                     <Trash2 size={16} style={{ marginRight: '8px' }} /> Clear History
                 </button>
             )}
         </div>
 
-        {/* Action Bar */}
+        {/* Action Bar — wraps on mobile */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center', 
-          marginBottom: '30px',
+          marginBottom: '25px',
           flexWrap: 'wrap',
-          gap: '20px'
+          gap: '15px'
         }}>
-            <div style={{ display: 'flex', gap: '5px', padding: '5px' }} className="glass-card">
+            {/* Tabs — horizontal scroll on very small screens */}
+            <div style={{ display: 'flex', gap: '5px', padding: '5px', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} className="glass-card">
                {['Active', 'Pending', 'Printing', 'History'].map(tab => (
                    <button 
                      key={tab}
                      onClick={() => setActiveTab(tab)}
                      style={{
-                        padding: '10px 20px',
+                        padding: '8px 16px',
                         background: activeTab === tab ? 'var(--primary)' : 'transparent',
                         border: 'none',
                         color: activeTab === tab ? 'black' : 'var(--text-muted)',
-                        borderRadius: '12px',
+                        borderRadius: '10px',
                         fontWeight: 700,
                         cursor: 'pointer',
                         transition: '0.3s',
-                        fontSize: '0.9rem'
+                        fontSize: '0.85rem',
+                        whiteSpace: 'nowrap'
                      }}
                    >
                        {tab}
@@ -135,109 +137,113 @@ const AdminDashboard = () => {
                ))}
             </div>
 
-            <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                <div style={{ position: 'relative' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', opacity: 0.5, color: 'black' }} />
+            {/* Search + Refresh */}
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flex: 1, minWidth: '200px', maxWidth: '400px' }}>
+                <div style={{ position: 'relative', flex: 1 }}>
+                    <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.5, color: 'black' }} />
                     <input 
                        type="text" 
                        placeholder="Search name/phone..." 
                        value={search}
                        onChange={(e) => setSearch(e.target.value)}
                        style={{
-                          padding: '12px 15px 12px 45px',
+                          padding: '11px 12px 11px 38px',
                           background: 'white',
                           border: '1px solid var(--border-light)',
                           borderRadius: '12px',
                           color: 'black',
-                          width: '250px',
-                          boxShadow: 'var(--shadow-matte)'
+                          width: '100%',
+                          boxSizing: 'border-box',
+                          boxShadow: 'var(--shadow-matte)',
+                          fontSize: '0.9rem'
                        }}
                     />
                 </div>
                 <button 
                    onClick={fetchOrders}
-                   style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}
+                   style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', padding: '8px', flexShrink: 0 }}
                 >
-                   <RefreshCw size={24} className={loading ? 'spin' : ''} />
+                   <RefreshCw size={22} className={loading ? 'spin' : ''} />
                 </button>
             </div>
         </div>
 
-        {/* Print Data Table */}
-        <div className="glass-card" style={{ overflowX: 'auto', minHeight: '400px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        {/* Print Data Table — horizontal scroll on mobile */}
+        <div className="glass-card" style={{ overflowX: 'auto', minHeight: '400px', WebkitOverflowScrolling: 'touch' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '700px' }}>
                 <thead>
                     <tr style={{ background: 'rgba(0, 0, 0, 0.02)', borderBottom: '1px solid var(--border-light)' }}>
-                        <th style={{ padding: '20px', color: 'var(--text-main)' }}>Customer Info</th>
-                        <th style={{ padding: '20px', color: 'var(--text-main)' }}>File / Document</th>
-                        <th style={{ padding: '20px', color: 'var(--text-main)' }}>Print Settings</th>
-                        <th style={{ padding: '20px', color: 'var(--text-main)' }}>Current Status</th>
-                        <th style={{ padding: '20px', color: 'var(--text-main)' }}>Commands</th>
+                        <th style={{ padding: '16px 20px', color: 'var(--text-main)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>Customer Info</th>
+                        <th style={{ padding: '16px 20px', color: 'var(--text-main)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>File / Document</th>
+                        <th style={{ padding: '16px 20px', color: 'var(--text-main)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>Print Settings</th>
+                        <th style={{ padding: '16px 20px', color: 'var(--text-main)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>Status</th>
+                        <th style={{ padding: '16px 20px', color: 'var(--text-main)', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {loading ? (
-                        <tr><td colSpan="5" style={{ textAlign: 'center', padding: '100px' }}>
-                            <div className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 800 }}>Syncing Queue...</div>
+                        <tr><td colSpan="5" style={{ textAlign: 'center', padding: '80px' }}>
+                            <div className="text-gradient" style={{ fontSize: '1.3rem', fontWeight: 800 }}>Syncing Queue...</div>
                         </td></tr>
                     ) : filteredOrders.length === 0 ? (
-                        <tr><td colSpan="5" style={{ textAlign: 'center', padding: '100px', color: 'var(--text-muted)' }}>
+                        <tr><td colSpan="5" style={{ textAlign: 'center', padding: '80px', color: 'var(--text-muted)' }}>
                             <AlertCircle size={40} style={{ margin: '0 auto 10px auto', display: 'block' }} />
                             {activeTab === 'History' ? 'No completed orders yet.' : 'No active print jobs found.'}
                         </td></tr>
                     ) : filteredOrders.map((order) => (
                         <tr key={order._id} style={{ borderBottom: '1px solid var(--border-light)', transition: '0.2s' }}>
-                            <td style={{ padding: '20px' }}>
-                                <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-main)' }}>{order.customerName}</div>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{order.phoneNumber}</div>
+                            <td style={{ padding: '16px 20px' }}>
+                                <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-main)' }}>{order.customerName}</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '3px' }}>{order.phoneNumber}</div>
                             </td>
-                            <td style={{ padding: '20px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <td style={{ padding: '16px 20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                     {Array.isArray(order.fileName) ? (
                                         order.fileName.map((name, idx) => (
-                                            <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                <div style={{ background: 'rgba(249, 212, 35, 0.1)', padding: '8px', borderRadius: '8px' }}>
-                                                    <FileText size={18} color="var(--primary)" />
+                                            <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <div style={{ background: 'rgba(249, 212, 35, 0.1)', padding: '7px', borderRadius: '8px', flexShrink: 0 }}>
+                                                    <FileText size={16} color="var(--primary)" />
                                                 </div>
                                                 <div style={{ minWidth: 0 }}>
-                                                    <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.85rem', maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                    <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.82rem', maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                                         {name}
                                                     </div>
-                                                    <a href={order.fileUrl[idx]} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.75rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
-                                                        View <ExternalLink size={10} />
+                                                    <a href={order.fileUrl[idx]} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.72rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '3px', fontWeight: 600 }}>
+                                                        View <ExternalLink size={9} />
                                                     </a>
                                                 </div>
                                             </div>
                                         ))
                                     ) : (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                            <div style={{ background: 'rgba(249, 212, 35, 0.1)', padding: '10px', borderRadius: '10px' }}>
-                                                <FileText size={24} color="var(--primary)" />
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                            <div style={{ background: 'rgba(249, 212, 35, 0.1)', padding: '8px', borderRadius: '8px' }}>
+                                                <FileText size={20} color="var(--primary)" />
                                             </div>
                                             <div>
-                                                <div style={{ fontWeight: 600, color: 'var(--text-main)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order.fileName || 'document.pdf'}</div>
-                                                <a href={order.fileUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.8rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 600 }}>
-                                                    View Document <ExternalLink size={12} />
+                                                <div style={{ fontWeight: 600, color: 'var(--text-main)', maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.82rem' }}>{order.fileName || 'document.pdf'}</div>
+                                                <a href={order.fileUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.75rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+                                                    View <ExternalLink size={10} />
                                                 </a>
                                             </div>
                                         </div>
                                     )}
                                 </div>
                             </td>
-                            <td style={{ padding: '20px' }}>
+                            <td style={{ padding: '16px 20px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', color: 'var(--text-main)' }}>
-                                    <span style={{ fontWeight: 800, color: 'var(--primary)' }}>{order.copies} COPIES</span>
-                                    <span>{order.colorMode === 'BW' ? 'Black & White' : 'Color Mode'} | {order.pageSize}</span>
-                                    <span style={{ fontSize: '0.75rem', opacity: 0.5, color: 'var(--text-muted)' }}>{new Date(order.createdAt).toLocaleString()}</span>
+                                    <span style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '0.9rem' }}>{order.copies} COPIES</span>
+                                    <span style={{ fontSize: '0.82rem' }}>{order.colorMode === 'BW' ? 'B&W' : 'Color'} | {order.pageSize}</span>
+                                    <span style={{ fontSize: '0.72rem', opacity: 0.5, color: 'var(--text-muted)' }}>{new Date(order.createdAt).toLocaleString()}</span>
                                 </div>
                             </td>
-                            <td style={{ padding: '20px' }}>
+                            <td style={{ padding: '16px 20px' }}>
                                 <span style={{
-                                    padding: '6px 15px',
+                                    padding: '5px 12px',
                                     borderRadius: '25px',
-                                    fontSize: '0.75rem',
+                                    fontSize: '0.72rem',
                                     fontWeight: 700,
                                     textTransform: 'uppercase',
+                                    whiteSpace: 'nowrap',
                                     background: 
                                         order.status === 'Pending' ? 'rgba(255, 165, 0, 0.1)' : 
                                         order.status === 'Printing' ? 'rgba(0, 229, 255, 0.1)' : 
@@ -255,16 +261,16 @@ const AdminDashboard = () => {
                                     {order.status}
                                 </span>
                             </td>
-                            <td style={{ padding: '20px' }}>
-                                <div style={{ display: 'flex', gap: '15px' }}>
+                            <td style={{ padding: '16px 20px' }}>
+                                <div style={{ display: 'flex', gap: '10px' }}>
                                     {order.status === 'Pending' && (
                                         <button onClick={() => updateStatus(order._id, 'Printing')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)' }} title="Move to printing">
-                                            <ArrowRightCircle size={24} />
+                                            <ArrowRightCircle size={22} />
                                         </button>
                                     )}
                                     {order.status !== 'Completed' && (
                                         <button onClick={() => updateStatus(order._id, 'Completed')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'springgreen' }} title="Complete Job">
-                                            <CheckCircle2 size={24} />
+                                            <CheckCircle2 size={22} />
                                         </button>
                                     )}
                                     <button 
@@ -272,7 +278,7 @@ const AdminDashboard = () => {
                                       style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444' }} 
                                       title="Delete Permanently"
                                     >
-                                        <Trash2 size={20} />
+                                        <Trash2 size={18} />
                                     </button>
                                 </div>
                             </td>
@@ -286,9 +292,18 @@ const AdminDashboard = () => {
       <style>{`
         .spin { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+          .glass-card table { min-width: 650px; }
+        }
+
+        @media (max-width: 480px) {
+          div[style*="padding: '120px"] { padding: 80px 12px 50px 12px !important; }
+        }
       `}</style>
     </div>
   );
 };
 
 export default AdminDashboard;
+

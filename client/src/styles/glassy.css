@@ -94,12 +94,78 @@ h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
-/* Utility for spacing */
-.section-padding {
-  padding: 80px 20px;
-}
+/* ===================== */
+/*  MOBILE RESPONSIVENESS */
+/* ===================== */
+
+/* Tablets: 481px - 768px */
 @media (max-width: 768px) {
-  .section-padding {
-    padding: 50px 15px;
+  .section-padding { padding: 50px 15px; }
+
+  /* Upload section 2-col -> 1-col */
+  .main-container {
+    grid-template-columns: 1fr !important;
   }
+  .form-column {
+    border-right: none !important;
+    border-bottom: 2px solid #EEEEEE;
+    padding: 30px 20px !important;
+  }
+  .price-column {
+    padding: 30px 20px !important;
+  }
+
+  /* Services grid */
+  #services > div > div {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Phones: max 480px */
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+
+  /* Navbar */
+  nav {
+    padding: 6px 12px !important;
+    width: 96% !important;
+  }
+
+  /* Hero */
+  section { padding: 110px 15px 60px 15px !important; }
+
+  /* Buttons */
+  .button-3d {
+    padding: 12px 20px !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.5px !important;
+  }
+  .button-3d + button {
+    padding: 12px 20px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Forms */
+  input, select {
+    font-size: 16px !important; /* prevent iOS zoom */
+  }
+
+  /* Upload & Print */
+  .form-column { padding: 25px 15px !important; }
+
+  /* GPay badge */
+  .price-column > div:last-child {
+    padding: 12px 15px !important;
+    gap: 10px !important;
+  }
+
+  /* Service cards */
+  .glass-card { padding: 30px 15px !important; }
+}
+
+/* Very small phones: max 360px */
+@media (max-width: 360px) {
+  nav span { font-size: 1rem !important; }
+  h1 { font-size: 2rem !important; }
+  h3 { font-size: 1.6rem !important; }
 }
