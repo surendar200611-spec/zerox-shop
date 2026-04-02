@@ -21,10 +21,20 @@ const AdminDashboard = () => {
     filterOrders();
   }, [search, activeTab, orders]);
 
+  const getBaseUrl = () => {
+    const { hostname } = window.location;
+    if (hostname !== 'localhost' && !hostname.includes('vercel.app')) {
+        return `http://${hostname}:5000`;
+    }
+    return 'http://localhost:5000';
+  };
+
+  const BASE_URL = getBaseUrl();
+
   const fetchOrders = async () => {
     setLoading(true);
     try {
-        const res = await axios.get('http://localhost:5000/api/orders');
+        const res = await axios.get(`${BASE_URL}/api/orders`);
         setOrders(res.data);
     } catch (err) {
         console.error('Fetch failed:', err);
@@ -56,7 +66,7 @@ const AdminDashboard = () => {
 
   const updateStatus = async (id, newStatus) => {
     try {
-        await axios.patch(`http://localhost:5000/api/orders/${id}`, { status: newStatus });
+        await axios.patch(`${BASE_URL}/api/orders/${id}`, { status: newStatus });
         fetchOrders();
     } catch (err) {
         console.error('Update failed:', err);
@@ -66,7 +76,7 @@ const AdminDashboard = () => {
   const deleteOrder = async (id) => {
     if (!window.confirm('Permanently delete this order record?')) return;
     try {
-        await axios.delete(`http://localhost:5000/api/orders/${id}`);
+        await axios.delete(`${BASE_URL}/api/orders/${id}`);
         fetchOrders();
     } catch (err) {
         console.error('Delete failed:', err);
@@ -76,7 +86,7 @@ const AdminDashboard = () => {
   const clearHistory = async () => {
     if (!window.confirm('This will permanently delete ALL completed orders. Continue?')) return;
     try {
-        await axios.delete('http://localhost:5000/api/orders/bulk/completed');
+        await axios.delete(`${BASE_URL}/api/orders/bulk/completed`);
         fetchOrders();
     } catch (err) {
         console.error('Bulk delete failed:', err);
@@ -208,7 +218,7 @@ const AdminDashboard = () => {
                                                     <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.82rem', maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                                         {name}
                                                     </div>
-                                                    <a href={order.fileUrl[idx]} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.72rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '3px', fontWeight: 600 }}>
+                                                    <a href={`${BASE_URL}${order.fileUrl[idx]}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.72rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '3px', fontWeight: 600 }}>
                                                         View <ExternalLink size={9} />
                                                     </a>
                                                 </div>
@@ -221,7 +231,7 @@ const AdminDashboard = () => {
                                             </div>
                                             <div>
                                                 <div style={{ fontWeight: 600, color: 'var(--text-main)', maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.82rem' }}>{order.fileName || 'document.pdf'}</div>
-                                                <a href={order.fileUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.75rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+                                                <a href={`${BASE_URL}${order.fileUrl}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontSize: '0.75rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
                                                     View <ExternalLink size={10} />
                                                 </a>
                                             </div>

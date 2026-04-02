@@ -46,6 +46,17 @@ const UploadSection = () => {
         setFilePreviews(prev => prev.filter((_, i) => i !== index));
     };
 
+    const getBaseUrl = () => {
+        const { hostname } = window.location;
+        // In dev, if we're accessing via IP, the backend is also at that IP
+        if (hostname !== 'localhost' && !hostname.includes('vercel.app')) {
+            return `http://${hostname}:5000`;
+        }
+        return 'http://localhost:5000';
+    };
+
+    const BASE_URL = getBaseUrl();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (files.length === 0 || !customerName || !phone) {
@@ -67,7 +78,7 @@ const UploadSection = () => {
                 formData.append('files', file);
             });
 
-            await axios.post('http://localhost:5000/api/orders', formData, {
+            await axios.post(`${BASE_URL}/api/orders`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             
@@ -100,10 +111,10 @@ const UploadSection = () => {
                         </p>
                     </div>
                     
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                         
                         {/* Professional Inputs */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <div style={{ position: 'relative' }}>
                                 <input 
                                     type="text" 
@@ -112,15 +123,16 @@ const UploadSection = () => {
                                     onChange={(e) => setCustomerName(e.target.value)} 
                                     style={{ 
                                         width: '100%', 
-                                        padding: '15px 20px', 
+                                        padding: '11px 15px', 
                                         background: '#F8F9FA', 
                                         border: '2px solid transparent', 
-                                        borderRadius: '15px', 
+                                        borderRadius: '12px', 
                                         color: '#000000', 
-                                        fontWeight: 700,
-                                        fontSize: '0.95rem',
+                                        fontWeight: 600,
+                                        fontSize: '0.875rem',
                                         transition: 'all 0.3s ease',
                                         outline: 'none',
+                                        boxSizing: 'border-box',
                                         boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
                                     }} 
                                     onFocus={(e) => e.target.style.border = '2px solid var(--primary)'}
@@ -130,20 +142,21 @@ const UploadSection = () => {
                             <div style={{ position: 'relative' }}>
                                 <input 
                                     type="text" 
-                                    placeholder="Phone Number (e.g. +91 84384 99443)" 
+                                    placeholder="Phone (e.g. +91 84384 99443)" 
                                     value={phone} 
                                     onChange={(e) => setPhone(e.target.value)} 
                                     style={{ 
                                         width: '100%', 
-                                        padding: '15px 20px', 
+                                        padding: '11px 15px', 
                                         background: '#F8F9FA', 
                                         border: '2px solid transparent', 
-                                        borderRadius: '15px', 
+                                        borderRadius: '12px', 
                                         color: '#000000', 
-                                        fontWeight: 700,
-                                        fontSize: '0.95rem',
+                                        fontWeight: 600,
+                                        fontSize: '0.875rem',
                                         transition: 'all 0.3s ease',
                                         outline: 'none',
+                                        boxSizing: 'border-box',
                                         boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
                                     }} 
                                     onFocus={(e) => e.target.style.border = '2px solid var(--primary)'}

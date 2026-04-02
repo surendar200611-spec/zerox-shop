@@ -25,17 +25,17 @@ const Footer = () => {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <h4 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#000000', marginBottom: '5px' }}>GET IN TOUCH</h4>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#555555', fontWeight: 600, fontSize: '0.9rem' }}>
-                        <MapPin size={18} color="#000000" />
+                    <h4 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#000000', marginBottom: '10px' }}>GET IN TOUCH</h4>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', color: '#444444', fontWeight: 600, fontSize: '0.95rem', marginBottom: '8px' }}>
+                        <MapPin size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
                         <span>Freesia Complex, PT Rajan Rd, Narimedu, Madurai, Tamil Nadu 625002</span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#555555', fontWeight: 600, fontSize: '0.9rem' }}>
-                        <Phone size={18} color="#000000" />
-                        <span>+91 84384 99443</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#444444', fontWeight: 600, fontSize: '0.95rem', marginBottom: '8px' }}>
+                        <Phone size={20} color="var(--primary)" style={{ flexShrink: 0 }} />
+                        <span style={{ letterSpacing: '0.5px' }}>+91 84384 99443</span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#555555', fontWeight: 600, fontSize: '0.9rem' }}>
-                        <Mail size={18} color="#000000" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#444444', fontWeight: 600, fontSize: '0.95rem' }}>
+                        <Mail size={20} color="var(--primary)" style={{ flexShrink: 0 }} />
                         <span>contact@dolphinxerox.com</span>
                     </div>
                 </div>
@@ -46,9 +46,15 @@ const Footer = () => {
             </div>
             
             <style>{`
-              @media (max-width: 480px) {
-                footer { padding: 50px 20px; }
-                .footer-grid { gap: 40px; }
+              @media (max-width: 768px) {
+                footer { padding: 60px 20px; }
+                .footer-grid { 
+                  display: flex !important; 
+                  flex-direction: column !important; 
+                  gap: 35px !important;
+                }
+                h3 { font-size: 2.2rem !important; }
+                span { line-height: 1.4; }
               }
             `}</style>
         </footer>

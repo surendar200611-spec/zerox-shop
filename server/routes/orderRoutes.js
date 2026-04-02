@@ -28,7 +28,7 @@ const isDbConnected = () => mongoose.connection.readyState === 1;
 router.post('/', upload.array('files'), async (req, res) => {
   const { customerName, phoneNumber, copies, colorMode, pageSize, totalPrice } = req.body;
   
-  const fileUrl = req.files ? req.files.map(file => `http://localhost:5000/uploads/${file.filename}`) : [];
+  const fileUrl = req.files ? req.files.map(file => `/uploads/${file.filename}`) : [];
   const fileName = req.files ? req.files.map(file => file.originalname) : [];
 
   const orderData = {
